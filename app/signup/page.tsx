@@ -7,7 +7,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import PasswordInput from "@/components/passwordInput";
 import AuthLayout from "@/components/AuthLayout";
 
-export default function RegisterPage() {
+export default function page() {
   // State to store form data
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
