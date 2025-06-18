@@ -73,7 +73,17 @@ export default function page() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
+            
+            
           />
+
+          <PasswordInput
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="confirm your password"
+             
+          />
+          {passwordError  && <p className="text-red-600">{error}</p>}
 
           <button
             type="submit"
