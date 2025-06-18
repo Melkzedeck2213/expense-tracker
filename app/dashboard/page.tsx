@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import Spinner from "@/components/Spinner";
+import SmallSpinner from "@/components/SmallSpinner";
 
 export default function page() {
   const [loading, setLoading] = useState(true);
@@ -11,6 +12,7 @@ export default function page() {
   const [userId, setUserId] = useState("");
   const [fullName, setFullName] = useState(""); // ✅ Add state for display name
   const [expenses, setExpenses] = useState<any[]>([]);
+  const [submitting, setSubmtting] = useState(false)
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
   const [name, setName] = useState("");
@@ -72,6 +74,8 @@ export default function page() {
   // ➕ Handle form
   const handleAddExpense = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setSubmtting(true)
 
     const { error } = await supabase.from("expenses").insert([
       {
@@ -151,7 +155,8 @@ export default function page() {
           type="submit"
           className="bg-green-600 text-white px-4 py-2 rounded"
         >
-          Add Expense
+          // if form is submitting show a loader
+          {submitting? <SmallSpinner/>: "Add Expense"}
         </button>
 
         {message && <p className="text-sm mt-2">{message}</p>}
