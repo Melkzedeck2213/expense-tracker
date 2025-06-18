@@ -13,28 +13,32 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  
+  const [fullName, setFullName] = useState("");
+
   const router = useRouter();
-  const[passwordError, setPasswordError] = useState('')
+  const [passwordError, setPasswordError] = useState("");
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent page reload
 
     // Call Supabase sign up
 
-     if (password !== confirmPassword) {
-    setPasswordError("Passwords do not match");
-    return; // STOP the function here if error
-  } else {
-    setPasswordError(""); // clear previous error
-  }
+    if (password !== confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return; // STOP the function here if error
+    } else {
+      setPasswordError(""); // clear previous error
+    }
 
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          full_name: fullName, // ✅ Store in metadata
+        },
+      },
     });
-
-
 
     if (error) {
       setError(error.message);
@@ -44,35 +48,43 @@ export default function RegisterPage() {
   };
 
   return (
-    
-     <>
-    <AuthLayout title="Signup">
-    <form onSubmit={handleRegister}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="border p-2 rounded w-full mb-3"
-      />
+    <>
+      <AuthLayout title="Signup">
+        <form onSubmit={handleRegister}>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+            className="w-full border p-2 rounded mb-3"
+          />
 
-      <PasswordInput
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Enter your password"
-      />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="border p-2 rounded w-full mb-3"
+          />
 
-      <button
-        type="submit"
-        className="bg-blue-600 text-white p-2 rounded w-full mt-3 cursor-pointer"
-      >
-       Signup
-      </button>
+          <PasswordInput
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
+          />
 
-      {error && <p className="text-red-600">{error}</p>}
-    </form>
-  </AuthLayout>
-     </>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white p-2 rounded w-full mt-3 cursor-pointer"
+          >
+            Signup
+          </button>
+
+          {error && <p className="text-red-600">{error}</p>}
+        </form>
+      </AuthLayout>
+    </>
   );
 }
