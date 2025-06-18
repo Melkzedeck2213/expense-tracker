@@ -95,6 +95,8 @@ export default function page() {
       setCategory("");
       await fetchExpenses(userId);
     }
+
+    setSubmtting(false)
   };
 
   // 🌀 Show spinner while loading
