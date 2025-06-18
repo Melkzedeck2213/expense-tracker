@@ -155,8 +155,9 @@ export default function page() {
           type="submit"
           className="bg-green-600 text-white px-4 py-2 rounded"
         >
-          // if form is submitting show a loader
+          
           {submitting? <SmallSpinner/>: "Add Expense"}
+
         </button>
 
         {message && <p className="text-sm mt-2">{message}</p>}
