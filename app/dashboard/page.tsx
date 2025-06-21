@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import Spinner from "@/components/Spinner";
 import SmallSpinner from "@/components/SmallSpinner";
+import Navbar from "@/components/Navbar";
 
 export default function page() {
   const [loading, setLoading] = useState(true);
@@ -17,6 +18,7 @@ export default function page() {
   const [amount, setAmount] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+
 
   const router = useRouter();
 
@@ -77,6 +79,7 @@ export default function page() {
 
     setSubmtting(true)
 
+ 
     const { error } = await supabase.from("expenses").insert([
       {
         user_id: userId,
@@ -110,7 +113,9 @@ export default function page() {
 
   // ✅ Render UI
   return (
-    <div className="p-4 max-w-xl mx-auto">
+    <>
+    <Navbar/>
+    <div className="min-h-screen p-4 max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">
         {getGreeting()}, {fullName || "User"} 👋
       </h1>
@@ -126,7 +131,9 @@ export default function page() {
           onChange={(e) => setAmount(e.target.value)}
           required
           className="w-full border p-2 rounded"
+          min={50}
         />
+
 
         <select
           value={category}
@@ -156,6 +163,7 @@ export default function page() {
         <button
           type="submit"
           className="bg-green-600 text-white px-4 py-2 rounded"
+          disabled={submitting}
         >
           
           {submitting? <SmallSpinner/>: "Add Expense"}
@@ -165,5 +173,6 @@ export default function page() {
         {message && <p className="text-sm mt-2">{message}</p>}
       </form>
     </div>
+    </>
   );
 }

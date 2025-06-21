@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeClosed } from "lucide-react";
 import PasswordInput from "@/components/passwordInput";
 import AuthLayout from "@/components/AuthLayout";
+import SmallSpinner from "@/components/SmallSpinner";
 
 export default function page() {
   // State to store form data
@@ -14,13 +15,15 @@ export default function page() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [fullName, setFullName] = useState("");
+  const[submitting, setSubmitting] = useState(false)
 
   const router = useRouter();
   const [passwordError, setPasswordError] = useState("");
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault(); // Prevent page reload
-
+    
+    setSubmitting(true)
     // Call Supabase sign up
 
     if (password !== confirmPassword) {
@@ -88,8 +91,9 @@ export default function page() {
           <button
             type="submit"
             className="bg-blue-600 text-white p-2 rounded w-full mt-3 cursor-pointer"
+            disabled={submitting}
           >
-            Signup
+            {submitting?<SmallSpinner/>:"Signup"}
           </button>
 
           {error && <p className="text-red-600">{error}</p>}
