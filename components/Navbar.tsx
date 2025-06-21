@@ -20,7 +20,7 @@ export default function Navbar() {
     <nav className="bg-blue-600 text-white px-6 py-3 flex justify-between items-center shadow-md">
       <h1 className="text-lg font-bold">Expense Tracker</h1>
 
-      <ul className="flex space-x-4 items-center">
+      <ul className="flex space-x-8 items-center">
         <li>
           <Link href="/dashboard" className="hover:underline">
             Dashboard
@@ -29,6 +29,11 @@ export default function Navbar() {
         <li>
           <Link href="/expenses" className="hover:underline">
             Expenses
+          </Link>
+        </li>
+         <li>
+          <Link href="/expenses/new" className="hover:underline">
+            Add Expenses
           </Link>
         </li>
         <li>

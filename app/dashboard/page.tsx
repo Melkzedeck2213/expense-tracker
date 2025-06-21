@@ -74,33 +74,7 @@ export default function page() {
   };
 
   // ➕ Handle form
-  const handleAddExpense = async (e: React.FormEvent) => {
-    e.preventDefault();
 
-    setSubmtting(true)
-
- 
-    const { error } = await supabase.from("expenses").insert([
-      {
-        user_id: userId,
-        name,
-        amount: parseFloat(amount),
-        category: category || "others",
-      },
-    ]);
-
-    if (error) {
-      setMessage("Error: " + error.message);
-    } else {
-      setMessage("Expense added successfully ✅");
-      setAmount("");
-      setName("");
-      setCategory("");
-      await fetchExpenses(userId);
-    }
-
-    setSubmtting(false)
-  };
 
   // 🌀 Show spinner while loading
   if (loading) {
@@ -123,55 +97,7 @@ export default function page() {
 
       {/* We’ll move expenses later from this page */}
       {/* Expense Form */}
-      <form onSubmit={handleAddExpense} className="space-y-4">
-        <input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-          min={50}
-        />
 
-
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        >
-          <option value="">Select Category</option>
-          <option value="water">Water</option>
-          <option value="electricity">Electricity</option>
-          <option value="food">Food</option>
-          <option value="transport">Transport</option>
-          <option value="entertainment">Entertainment</option>
-          <option value="health">Health</option>
-          <option value="others">Others</option>
-        </select>
-
-        <input
-          type="text"
-          placeholder="Name of the expense"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="w-full border p-2 rounded"
-        />
-
-        <button
-          type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded"
-          disabled={submitting}
-        >
-          
-          {submitting? <SmallSpinner/>: "Add Expense"}
-
-        </button>
-
-        {message && <p className="text-sm mt-2">{message}</p>}
-      </form>
     </div>
     </>
   );

@@ -12,22 +12,27 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
-  const [submitting, setSubmitting] = useState(false)
+  const [submitting, setSubmitting] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true)
+    setSubmitting(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
-      setError(error.message);
+      if (error.message === "failed to fetch") {
+        setError("Please check your internet connection and try again.");
+      } else {
+        setError(error.message);
+      }
+      setSubmitting(false);
+      return;
     } else {
       router.push("/dashboard");
     }
-
   };
 
   return (
@@ -53,7 +58,7 @@ export default function Login() {
           className="bg-blue-600 text-white p-2 rounded w-full mt-3 cursor-pointer flex items-center justify-center"
           disabled={submitting}
         >
-         {submitting? <SmallSpinner/>: "Login"}
+          {submitting ? <SmallSpinner /> : "Login"}
         </button>
 
         {error && <p className="text-red-600">{error}</p>}
